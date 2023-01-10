@@ -6,7 +6,7 @@ object RDDParallelize {
 
   def main(args: Array[String]): Unit={
     val spark:SparkSession=SparkSession.builder().master(master="local[1]")
-      .appName(name="SparkByExample.com")
+      .appName(name="Taxi_Analysis.com")
       .getOrCreate()
     //import spark.implicits._
 
@@ -32,11 +32,7 @@ object RDDParallelize {
       .add("Congestion_surchange", FloatType)
 
     // Заполнение датафрейма из файла
-    val Initial_df = spark
-      .read
-      .format("csv")
-      .schema(schema)
-      .load("yellow_tripdata_2020-01.csv")
+    val Initial_df = spark.read.format("csv").schema(schema).load("yellow_tripdata_2020-01.csv")
 
     // Выбор только нужных столбцов, удаление пустых строк
     var Work_df =  Initial_df.select("Trep_pickup_datetime", "Passanger_count", "Fare_amount").na.drop()
